@@ -1,24 +1,7 @@
-# Sakanax
+# Sakanax <img class="avatar" src="https://user-images.githubusercontent.com/20736455/48205670-effe4300-e3af-11e8-8cfd-7078f8965e1f.png" width="44" height="44">
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/sakanax`. To experiment with that code, run `bin/console` for an interactive prompt.
+Sakanax is a CLI tool for identifying files that are up in Github PullRequest. For example, specifying a commit ID specifies a PullRequest including the commit ID, and also acquires a list of files included in the PullRequest.
 
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'sakanax'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install sakanax
 
 ## Usage
 
@@ -43,6 +26,23 @@ Detect files included in the PullRequests containing the target commit ID (sha).
 $ sakanax diff_files --sha c5c6e5a6756def0986ad1122eb0a0fdcb4ac5d53
 "PullRequest: 32, diff files: ['diff file1', 'diff file2', ...]"
 ```  
+
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'sakanax'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install sakanax
+
 
 ## Development
 
