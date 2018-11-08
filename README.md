@@ -22,7 +22,13 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+$ sakanax help
+Commands:
+  sakanax files --sha=SHA          # Detect files included in the PullRequests containing the target commit ID (sha).
+  sakanax help [COMMAND]           # Describe available commands or one specific command
+  sakanax pull_requests --sha=SHA  # A list of PullRequests containing the target commit ID (sha).
+```  
 
 ## Development
 
