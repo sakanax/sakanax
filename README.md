@@ -5,12 +5,25 @@ Sakanax is a CLI tool for identifying files that are up in Github PullRequest. F
 
 ## Usage
 
-First, Specify Github's access token and repository name as an environment variable.
+First, Specify Github's access token and repository name as an environment variable and put .sakanax.yml in your project root directory.
+
+##### Github token / repository
 
 ```bash
 $ export GITHUB_TOKEN=<personal access token>
 $ export GITHUB_REPOSITORY=<your repository name>
 ```
+
+##### .sakanax.yml
+
+```yaml
+detect_files:
+  - "src/main/file.rb"
+  - "lib/etc.rb"
+  - ....
+```
+
+### help
 
 ```bash
 $ sakanax help
@@ -35,6 +48,7 @@ $ sakanax diff_files --sha c5c6e5a6756def0986ad1122eb0a0fdcb4ac5d53
 ```  
 
 ### detect_file
+Put .sakanax.yml in your project root directory. Detect file in .sakanax.yml.
 
 ```
 $ sakanax detect_file --sha aed28c5aa60398fda946878978168890b0x0007a
