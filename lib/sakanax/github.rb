@@ -44,9 +44,12 @@ class Github
   end
 
   def detect_file(sha)
-    pr = get_pull_requests_contained_target_commit_id(sha)
-    files = get_files_with_changes(pr)
-    duplicated_files = files & yaml["detect_files"]
-    p duplicated_files
+    prs = get_pull_requests_contained_target_commit_id(sha)
+    duplicated_files = Array.new
+    prs.each do |pr|
+      files = get_files_with_changes(pr)
+       duplicated_files.push(files & @yaml["detect_files"])
+    end
+    return duplicated_files
   end
 end
