@@ -1,8 +1,13 @@
+require 'yaml'
+
 class Github
 
   def initialize()
     @client = Octokit::Client.new(:access_token => ENV['GITHUB_TOKEN'])
     @repository = ENV['GITHUB_REPOSITORY']
+
+    config = File.join(ENV['HOME'], ".sakanax.yml")
+    @yaml = YAML.load_file(config)
   end
 
   # Open状態のPullRequestの一覧を配列で取得する
@@ -36,5 +41,12 @@ class Github
     end
     p '[INFO] No file changed in the specified PullRequest' if files.empty?
     return files
+  end
+
+  def detect_file(sha)
+    pr = get_pull_requests_contained_target_commit_id(sha)
+    files = get_files_with_changes(pr)
+    duplicated_files = files & yaml["detect_files"]
+    p duplicated_files
   end
 end
