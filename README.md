@@ -5,7 +5,14 @@ Sakanax is a CLI tool for identifying files that are up in Github PullRequest. F
 
 ## Usage
 
+First, Specify Github's access token and repository name as an environment variable.
+
+```bash
+$ export GITHUB_TOKEN=<personal access token>
+$ export GITHUB_REPOSITORY=<your repository name>
 ```
+
+```bash
 $ sakanax help
 Commands:
   sakanax diff_files --sha=SHA     # Detect files included in the PullRequests containing the target commit ID (sha).
@@ -15,14 +22,14 @@ Commands:
 
 ### pull_requests
 A list of PullRequests containing the target commit ID (sha).
-```
+```bash
 $ sakanax pull_requests --sha 536ad1c5c6e5a675122eb0fdcb4ac5da06def098
 [3, 2, 1]
 ```
 
 ### diff_files
 Detect files included in the PullRequests containing the target commit ID (sha).
-```
+```bash
 $ sakanax diff_files --sha c5c6e5a6756def0986ad1122eb0a0fdcb4ac5d53
 "PullRequest: 32, diff files: ['diff file1', 'diff file2', ...]"
 ```  
