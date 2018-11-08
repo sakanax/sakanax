@@ -22,7 +22,27 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+$ sakanax help
+Commands:
+  sakanax diff_files --sha=SHA     # Detect files included in the PullRequests containing the target commit ID (sha).
+  sakanax help [COMMAND]           # Describe available commands or one specific command
+  sakanax pull_requests --sha=SHA  # A list of PullRequests containing the target commit ID (sha).
+```
+
+### pull_requests
+A list of PullRequests containing the target commit ID (sha).
+```
+$ sakanax pull_requests --sha 536ad1c5c6e5a675122eb0fdcb4ac5da06def098
+[3, 2, 1]
+```
+
+### diff_files
+Detect files included in the PullRequests containing the target commit ID (sha).
+```
+$ sakanax diff_files --sha c5c6e5a6756def0986ad1122eb0a0fdcb4ac5d53
+"PullRequest: 32, diff files: ['diff file1', 'diff file2', ...]"
+```  
 
 ## Development
 
