@@ -14,7 +14,7 @@ module Sakanax
       p github.get_pull_requests_contained_target_commit_id(options['sha'])
     end
 
-    desc "files", "Detect files included in the PullRequests containing the target commit ID (sha)."
+    desc "diff_files", "Detect files included in the PullRequests containing the target commit ID (sha)."
     option "sha", required: true
     def diff_files
       github = Github.new

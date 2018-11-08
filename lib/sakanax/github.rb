@@ -2,7 +2,7 @@ class Github
 
   def initialize()
     @client = Octokit::Client.new(:access_token => ENV['GITHUB_TOKEN'])
-    @repository = 'sakanax/sakanax'
+    @repository = ENV['GITHUB_REPOSITORY']
   end
 
   # Open状態のPullRequestの一覧を配列で取得する
