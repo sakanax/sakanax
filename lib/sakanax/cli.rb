@@ -24,5 +24,12 @@ module Sakanax
       end
     end
 
+    desc "detect_file", "abc"
+    option "sha", required: true
+    def detect_file
+      github = Github.new
+      detect_files = github.detect_file(options['sha'])
+      p detect_files.empty? ? '[INFO] Anything detcted.' : "[INFO] detected #{detect_files}"
+    end
   end
 end
