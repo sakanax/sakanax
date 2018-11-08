@@ -34,6 +34,17 @@ $ sakanax diff_files --sha c5c6e5a6756def0986ad1122eb0a0fdcb4ac5d53
 "PullRequest: 32, diff files: ['diff file1', 'diff file2', ...]"
 ```  
 
+### detect_file
+
+```
+$ sakanax detect_file --sha aed28c5aa60398fda946878978168890b0x0007a
+"[INFO] detected [[\"lib/sakanax/cli.rb\"]]"
+
+$ sakanax detect_file --sha 17ff60e38f98aed28c5aa60398fda94687897816
+"[INFO] target commit ID (sha: 17ff60e38f98aed28c5aa60398fda94687897816) does not exist in the currently open PullRequests."
+"[INFO] Anything detcted.
+```
+
 ## Installation
 
 Add this line to your application's Gemfile:
