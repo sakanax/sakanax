@@ -2,11 +2,9 @@ require 'yaml'
 
 class Github
 
-  def initialize()
+  def initialize(config = File.join(Dir.pwd, ".sakanax.yml"))
     @client = Octokit::Client.new(:access_token => ENV['GITHUB_TOKEN'])
     @repository = ENV['GITHUB_REPOSITORY']
-
-    config = File.join(ENV['HOME'], ".sakanax.yml")
     @yaml = YAML.load_file(config)
   end
 
@@ -44,11 +42,10 @@ class Github
   end
 
   def detect_file(sha)
-    prs = get_pull_requests_contained_target_commit_id(sha)
     duplicated_files = Array.new
-    prs.each do |pr|
-      files = get_files_with_changes(pr)
-       duplicated_files.push(files & @yaml["detect_files"])
+    get_pull_requests_contained_target_commit_id(sha).each do |pr|
+      duplicated_files.push(get_files_with_changes(pr) & @yaml["detect_files"])
+      duplicated_files.flatten!
     end
     return duplicated_files
   end
