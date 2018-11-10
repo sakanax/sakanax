@@ -29,10 +29,16 @@ detect_files:
 
 ```bash
 $ sakanax help
-Commands:
+⣾ Commands:
+  sakanax detect_files --sha=SHA   # It judges whether there is a file to be searched in PullRequest.
   sakanax diff_files --sha=SHA     # Detect files included in the PullRequests containing the target commit ID (sha).
   sakanax help [COMMAND]           # Describe available commands or one specific command
   sakanax pull_requests --sha=SHA  # A list of PullRequests containing the target commit ID (sha).
+  sakanax version                  # version
+
+Options:
+  -h, [--help], [--no-help]  # help message.
+      [--config=CONFIG]
 ```
 
 ### pull_requests
