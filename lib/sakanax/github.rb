@@ -1,52 +1,62 @@
 require 'yaml'
 
+# Github
 class Github
-
-  def initialize(config = File.join(Dir.pwd, ".sakanax.yml"))
-    @client = Octokit::Client.new(:access_token => ENV['GITHUB_TOKEN'])
+  def initialize(config)
+    @client = Octokit::Client.new(access_token: ENV['GITHUB_TOKEN'])
     @repository = ENV['GITHUB_REPOSITORY']
-    @yaml = YAML.load_file(config)
+    @yaml = load_config(config)
   end
 
-  # Open状態のPullRequestの一覧を配列で取得する
-  def get_opened_pull_requests()
-    pull_requests = @client.pull_requests(@repository)
-
-    opened_pull_requests = Array.new
-    pull_requests.each do |pr|
-      opened_pull_requests.push(pr[:number])
-    end
-    return opened_pull_requests
-  end
-
-  # コミットID(sha)を含むPullRequestの一覧を配列で取得する
-  def get_pull_requests_contained_target_commit_id(sha)
-    pull_requests_contained_target_commit_id = Array.new
-    get_opened_pull_requests().each do |pr|
+  # Get a list of PullRequests including commit ID (sha) as an array
+  def get_pr_including_target_commit(sha)
+    pr_including_target_commit = []
+    fetch_opened_pull_requests.each do |pr|
       @client.pull_request_commits(@repository, pr).each do |commit|
-        pull_requests_contained_target_commit_id.push(pr) if sha == commit[:sha]
+        pr_including_target_commit.push(pr) if sha == commit[:sha]
       end
     end
-    p "[INFO] target commit ID (sha: #{sha}) does not exist in the currently open PullRequests." if pull_requests_contained_target_commit_id.empty?
-    return pull_requests_contained_target_commit_id
+    puts "[INFO] Target sha: #{sha} is not exist in open PullRequests" \
+          if pr_including_target_commit.empty?
+    pr_including_target_commit
   end
 
-  # テスト対象とするPRの番号から、変更があったファイルを抽出する
+  # Extract the changed file from the number of PR to be tested
   def get_files_with_changes(pull_request)
-    files = Array.new
+    files = []
     @client.pull_request_files(@repository, pull_request).each do |file|
       files.push(file[:filename])
     end
-    p '[INFO] No file changed in the specified PullRequest' if files.empty?
-    return files
+    puts '[INFO] No file changed in the specified PullRequest' if files.empty?
+    files
   end
 
-  def detect_file(sha)
-    duplicated_files = Array.new
-    get_pull_requests_contained_target_commit_id(sha).each do |pr|
-      duplicated_files.push(get_files_with_changes(pr) & @yaml["detect_files"])
+  # Checks whether the file to be searched exists
+  # in the pull request including the specified commit ID.
+  def detect_files(sha)
+    duplicated_files = []
+    get_pr_including_target_commit(sha).each do |pr|
+      duplicated_files.push(get_files_with_changes(pr) & @yaml['detect_files'])
       duplicated_files.flatten!
     end
-    return duplicated_files
+    duplicated_files
+  end
+
+  private
+
+  def load_config(config)
+    return YAML.load_file(config) if File.exist?(config)
+
+    puts "[INFO] Config file #{config} does not exist"
+    exit 0
+  end
+
+  # Get a list of open state PullRequests as an array
+  def fetch_opened_pull_requests
+    opened_pull_requests = []
+    @client.pull_requests(@repository).each do |pr|
+      opened_pull_requests.push(pr[:number])
+    end
+    opened_pull_requests
   end
 end
