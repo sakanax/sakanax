@@ -1,0 +1,4 @@
+# List of search target files
+detect_files:
+  - lib/sakanax.rb
+  - lib/sakanax/cli.rb

@@ -50,13 +50,30 @@ $ sakanax diff_files --sha c5c6e5a6756def0986ad1122eb0a0fdcb4ac5d53
 ### detect_file
 Put .sakanax.yml in your project root directory. Detect file in .sakanax.yml.
 
-```
+```bash
 $ sakanax detect_file --sha aed28c5aa60398fda946878978168890b0x0007a
 "[INFO] detected [[\"lib/sakanax/cli.rb\"]]"
 
 $ sakanax detect_file --sha 17ff60e38f98aed28c5aa60398fda94687897816
 "[INFO] target commit ID (sha: 17ff60e38f98aed28c5aa60398fda94687897816) does not exist in the currently open PullRequests."
 "[INFO] Anything detcted.
+```
+
+### Actual Usage
+Based on the result of sakanax detect_files command, it judges whether to test the target file.
+
+```bash
+#!/bin/bash
+
+RESULT=$(sakanax detect_files --sha <COMMIT ID> --config .sakanax.yml)
+
+if [ "${RESULT}" == false ]; then
+  echo "Could not find the file contained in .sakanax.yml."
+else
+  echo "Test the detected file"
+  # ...
+  # ...
+fi
 ```
 
 ## Installation

@@ -9,18 +9,16 @@ class Github
   end
 
   # Get a list of PullRequests including commit ID (sha) as an array
-  def get_pull_requests_contained_target_commit_id(sha)
-    pull_requests_contained_target_commit_id = []
+  def get_pr_including_target_commit(sha)
+    pr_including_target_commit = []
     fetch_opened_pull_requests.each do |pr|
       @client.pull_request_commits(@repository, pr).each do |commit|
-        pull_requests_contained_target_commit_id.push(pr) if sha == commit[:sha]
+        pr_including_target_commit.push(pr) if sha == commit[:sha]
       end
     end
-    if pull_requests_contained_target_commit_id.empty?
-      puts "[INFO] target commit ID (sha: #{sha}) does not exist " \
-           'in the currently open PullRequests.'
-    end
-    pull_requests_contained_target_commit_id
+    puts "[INFO] Target sha: #{sha} is not exist in open PullRequests" \
+          if pr_including_target_commit.empty?
+    pr_including_target_commit
   end
 
   # Extract the changed file from the number of PR to be tested
@@ -33,9 +31,11 @@ class Github
     files
   end
 
-  def detect_file(sha)
+  # Checks whether the file to be searched exists
+  # in the pull request including the specified commit ID.
+  def detect_files(sha)
     duplicated_files = []
-    get_pull_requests_contained_target_commit_id(sha).each do |pr|
+    get_pr_including_target_commit(sha).each do |pr|
       duplicated_files.push(get_files_with_changes(pr) & @yaml['detect_files'])
       duplicated_files.flatten!
     end
@@ -47,7 +47,7 @@ class Github
   def load_config(config)
     return YAML.load_file(config) if File.exist?(config)
 
-    puts "[INFO] config file #{config} does not exist"
+    puts "[INFO] Config file #{config} does not exist"
     exit 0
   end
 
