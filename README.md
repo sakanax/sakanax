@@ -1,5 +1,7 @@
 # Sakanax <img class="avatar" src="https://user-images.githubusercontent.com/20736455/48205670-effe4300-e3af-11e8-8cfd-7078f8965e1f.png" width="44" height="44">
 
+[![Gem Version](https://badge.fury.io/rb/sakanax.svg)](https://badge.fury.io/rb/sakanax)
+
 Sakanax is a CLI tool for identifying files that are up in Github PullRequest. For example, specifying a commit ID specifies a PullRequest including the commit ID, and also acquires a list of files included in the PullRequest.
 
 
