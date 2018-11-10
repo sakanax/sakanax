@@ -32,8 +32,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_development_dependency 'bundler', '~> 1.16'
-  spec.add_development_dependency 'octokit', '~> 4.0'
   spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency  'thor', '~> 0.19.1'
-  spec.add_development_dependency  'tty-spinner'
+  spec.add_runtime_dependency 'octokit', '~> 4.0'
+  spec.add_runtime_dependency 'thor', '~> 0.19.1'
+  spec.add_runtime_dependency 'tty-spinner'
 end
