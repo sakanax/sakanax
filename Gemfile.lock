@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sakanax (0.1.0)
+    sakanax (0.1.1)
 
 GEM
   remote: https://rubygems.org/
