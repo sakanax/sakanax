@@ -1,38 +1,47 @@
-require "sakanax"
-require "thor"
-require "octokit"
-require "tty-spinner"
+require 'sakanax'
+require 'thor'
+require 'octokit'
+require 'tty-spinner'
 require_relative 'github'
 
 module Sakanax
+  # CLI Class
   class CLI < Thor
-    class_option "sha", :type => :string, required: true
-    class_option "config", :type => :string, required: false
+    class_option 'sha', type: :string, required: true
+    class_option 'config', type: :string, required: false
 
-    default_command :pull_requests
-    desc "pull_requests", "A list of PullRequests containing the target commit ID (sha)."
-    def pull_requests
-      github = Github.new(options['config'])
-      p github.get_pull_requests_contained_target_commit_id(options['sha'])
+    def initialize(*args)
+      super
+      config = File.join(Dir.pwd, '.sakanax.yml') if config.nil?
+      @github = Github.new(config)
+      @sha = options['sha']
+      spinner = TTY::Spinner.new(':spinner ', format: :dots_2)
+      spinner.auto_spin
     end
 
-    desc "diff_files", "Detect files included in the PullRequests containing the target commit ID (sha)."
+    default_command :pull_requests
+    desc 'pull_requests', \
+         'A list of PullRequests containing the target commit ID (sha).'
+    def pull_requests
+      p @github.get_pull_requests_contained_target_commit_id(options['sha'])
+    end
+
+    desc 'diff_files', \
+         'Detect files included in the PullRequests ' \
+         'containing the target commit ID (sha).'
     def diff_files
-      github = Github.new(options['config'])
-      pull_requests =  github.get_pull_requests_contained_target_commit_id(options['sha'])
+      pull_requests = @github.get_pull_requests_contained_target_commit_id(@sha)
       pull_requests.each do |pr|
         p "PullRequest: #{pr}, diff files: #{github.get_files_with_changes(pr)}"
       end
     end
 
-    desc "detect_file", "abc"
+    desc 'detect_file', \
+         'It judges whether there is a file to be searched in PullRequest. ' \
+         'If the file exists, it will return the list of the specified file. ' \
+         'If the file can not be found, false is returned.'
     def detect_file
-      spinner = TTY::Spinner.new(":spinner Searching files on GitHub PullRequest :spinner", format: :dots_2)
-      spinner.auto_spin
-
-      github = Github.new(options['config'])
-      detect_files = github.detect_file(options['sha'])
-      spinner.stop('\nDone!')
+      detect_files = @github.detect_file(@sha)
       p detect_files.empty? ? false : detect_files
     end
   end
