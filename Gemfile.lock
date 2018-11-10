@@ -19,6 +19,9 @@ GEM
       addressable (>= 2.3.5, < 2.6)
       faraday (~> 0.8, < 1.0)
     thor (0.19.4)
+    tty-cursor (0.6.0)
+    tty-spinner (0.8.0)
+      tty-cursor (>= 0.5.0)
 
 PLATFORMS
   ruby
@@ -29,6 +32,7 @@ DEPENDENCIES
   rake (~> 10.0)
   sakanax!
   thor (~> 0.19.1)
+  tty-spinner
 
 BUNDLED WITH
    1.16.2
